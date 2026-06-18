@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>燎原 FIRE Atlas</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <style>
     :root {
       color-scheme: light;
@@ -44,12 +45,7 @@
         linear-gradient(180deg, #f7f9fc 0%, #edf2f9 100%);
     }
 
-    button,
-    input,
-    select,
-    textarea {
-      font: inherit;
-    }
+    button, input, select, textarea { font: inherit; }
 
     .shell {
       width: min(1440px, calc(100vw - 28px));
@@ -57,15 +53,8 @@
       padding: 24px 0 42px;
     }
 
-    .glass,
-    .hero,
-    .panel,
-    .metric-card,
-    .summary-card,
-    .trend-card,
-    .config-row,
-    .snapshot-table,
-    .modal-card {
+    .glass, .hero, .panel, .metric-card, .summary-card, .trend-card,
+    .config-row, .snapshot-table, .modal-card {
       background: var(--surface);
       border: 1px solid var(--border);
       backdrop-filter: blur(16px);
@@ -82,8 +71,7 @@
       margin-bottom: 18px;
     }
 
-    .hero::before,
-    .hero::after {
+    .hero::before, .hero::after {
       content: "";
       position: absolute;
       border-radius: 999px;
@@ -92,18 +80,14 @@
     }
 
     .hero::before {
-      width: 240px;
-      height: 240px;
-      right: 48px;
-      top: -120px;
+      width: 240px; height: 240px;
+      right: 48px; top: -120px;
       background: rgba(37, 99, 235, 0.12);
     }
 
     .hero::after {
-      width: 190px;
-      height: 190px;
-      left: 14%;
-      bottom: -76px;
+      width: 190px; height: 190px;
+      left: 14%; bottom: -76px;
       background: rgba(124, 58, 237, 0.12);
     }
 
@@ -190,11 +174,7 @@
       box-shadow: 0 12px 24px rgba(37, 99, 235, 0.2);
     }
 
-    .segment-btn:hover,
-    .btn:hover,
-    .utility-btn:hover {
-      transform: translateY(-1px);
-    }
+    .segment-btn:hover, .btn:hover, .utility-btn:hover { transform: translateY(-1px); }
 
     .hero-actions {
       display: flex;
@@ -203,8 +183,7 @@
       justify-content: flex-end;
     }
 
-    .utility-btn,
-    .btn {
+    .utility-btn, .btn {
       border: none;
       border-radius: 14px;
       padding: 11px 16px;
@@ -214,29 +193,21 @@
       white-space: nowrap;
     }
 
-    .btn.primary,
-    .utility-btn.primary {
+    .btn.primary, .utility-btn.primary {
       background: linear-gradient(135deg, #2563eb, #7c3aed);
       color: #fff;
       box-shadow: 0 12px 24px rgba(37, 99, 235, 0.18);
     }
 
-    .btn.ghost,
-    .utility-btn.ghost {
+    .btn.ghost, .utility-btn.ghost {
       background: rgba(255, 255, 255, 0.78);
       color: var(--text);
       border: 1px solid rgba(148, 163, 184, 0.18);
     }
 
-    .btn.secondary {
-      background: rgba(15, 23, 42, 0.05);
-      color: var(--text);
-    }
-
-    .btn.danger {
-      background: rgba(220, 38, 38, 0.1);
-      color: var(--danger);
-    }
+    .btn.secondary { background: rgba(15, 23, 42, 0.05); color: var(--text); }
+    .btn.danger { background: rgba(220, 38, 38, 0.1); color: var(--danger); }
+    .btn.small { padding: 7px 12px; font-size: 13px; border-radius: 10px; }
 
     .label {
       display: block;
@@ -248,11 +219,8 @@
       color: var(--muted-soft);
     }
 
-    input[type="month"],
-    input[type="text"],
-    input[type="number"],
-    select,
-    textarea {
+    input[type="month"], input[type="text"], input[type="number"],
+    input[type="email"], input[type="password"], select, textarea {
       width: 100%;
       border-radius: 14px;
       border: 1px solid rgba(148, 163, 184, 0.24);
@@ -262,27 +230,17 @@
       transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
     }
 
-    input:focus,
-    select:focus,
-    textarea:focus {
+    input:focus, select:focus, textarea:focus {
       outline: none;
       border-color: rgba(37, 99, 235, 0.36);
       box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
       transform: translateY(-1px);
     }
 
-    textarea {
-      resize: vertical;
-      min-height: 92px;
-    }
+    textarea { resize: vertical; min-height: 92px; }
 
-    .view {
-      display: none;
-    }
-
-    .view.active {
-      display: block;
-    }
+    .view { display: none; }
+    .view.active { display: block; }
 
     .summary-grid {
       display: grid;
@@ -302,36 +260,17 @@
     .summary-card::after {
       content: "";
       position: absolute;
-      width: 120px;
-      height: 120px;
-      right: -34px;
-      bottom: -64px;
+      width: 120px; height: 120px;
+      right: -34px; bottom: -64px;
       border-radius: 999px;
       background: currentColor;
       opacity: 0.08;
       pointer-events: none;
     }
 
-    .summary-label {
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 10px;
-    }
-
-    .summary-value {
-      font-size: clamp(28px, 3vw, 38px);
-      font-weight: 800;
-      letter-spacing: -0.05em;
-      line-height: 1.04;
-    }
-
-    .summary-sub {
-      margin-top: 8px;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.6;
-      max-width: 250px;
-    }
+    .summary-label { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .summary-value { font-size: clamp(28px, 3vw, 38px); font-weight: 800; letter-spacing: -0.05em; line-height: 1.04; }
+    .summary-sub { margin-top: 8px; font-size: 13px; color: var(--muted); line-height: 1.6; max-width: 250px; }
 
     .finance { color: var(--finance); }
     .investment { color: var(--investment); }
@@ -339,23 +278,13 @@
     .life { color: var(--life); }
     .growth, .custom { color: var(--growth); }
 
-    .summary-card.finance,
-    .trend-card.finance { background: linear-gradient(180deg, rgba(15, 118, 110, 0.08), rgba(255, 255, 255, 0.88)); }
-    .summary-card.investment,
-    .trend-card.investment { background: linear-gradient(180deg, rgba(124, 58, 237, 0.08), rgba(255, 255, 255, 0.88)); }
-    .summary-card.health,
-    .trend-card.health { background: linear-gradient(180deg, rgba(37, 99, 235, 0.08), rgba(255, 255, 255, 0.88)); }
-    .summary-card.life,
-    .trend-card.life { background: linear-gradient(180deg, rgba(234, 88, 12, 0.08), rgba(255, 255, 255, 0.88)); }
-    .summary-card.growth,
-    .trend-card.growth,
-    .trend-card.custom { background: linear-gradient(180deg, rgba(79, 70, 229, 0.08), rgba(255, 255, 255, 0.88)); }
+    .summary-card.finance, .trend-card.finance { background: linear-gradient(180deg, rgba(15, 118, 110, 0.08), rgba(255, 255, 255, 0.88)); }
+    .summary-card.investment, .trend-card.investment { background: linear-gradient(180deg, rgba(124, 58, 237, 0.08), rgba(255, 255, 255, 0.88)); }
+    .summary-card.health, .trend-card.health { background: linear-gradient(180deg, rgba(37, 99, 235, 0.08), rgba(255, 255, 255, 0.88)); }
+    .summary-card.life, .trend-card.life { background: linear-gradient(180deg, rgba(234, 88, 12, 0.08), rgba(255, 255, 255, 0.88)); }
+    .summary-card.growth, .trend-card.growth, .trend-card.custom { background: linear-gradient(180deg, rgba(79, 70, 229, 0.08), rgba(255, 255, 255, 0.88)); }
 
-    .panel {
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      margin-bottom: 18px;
-    }
+    .panel { border-radius: var(--radius-lg); padding: 20px; margin-bottom: 18px; }
 
     .panel-head {
       display: flex;
@@ -366,36 +295,13 @@
       margin-bottom: 16px;
     }
 
-    .panel-title {
-      margin: 0;
-      font-size: 22px;
-      letter-spacing: -0.04em;
-      line-height: 1.1;
-    }
+    .panel-title { margin: 0; font-size: 22px; letter-spacing: -0.04em; line-height: 1.1; }
+    .panel-subtitle { margin: 6px 0 0; color: var(--muted); line-height: 1.7; font-size: 14px; max-width: 720px; }
 
-    .panel-subtitle {
-      margin: 6px 0 0;
-      color: var(--muted);
-      line-height: 1.7;
-      font-size: 14px;
-      max-width: 720px;
-    }
+    .compact-toolbar { display: flex; gap: 12px; flex-wrap: wrap; align-items: end; }
+    .compact-toolbar .field { min-width: 180px; }
 
-    .compact-toolbar {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: end;
-    }
-
-    .compact-toolbar .field {
-      min-width: 180px;
-    }
-
-    .module-stack {
-      display: grid;
-      gap: 14px;
-    }
+    .module-stack { display: grid; gap: 14px; }
 
     .module-block {
       border-radius: 18px;
@@ -413,18 +319,8 @@
       margin-bottom: 12px;
     }
 
-    .module-title {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .module-subtitle {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
+    .module-title { margin: 0; font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+    .module-subtitle { color: var(--muted); font-size: 13px; line-height: 1.5; }
 
     .module-tag {
       display: inline-flex;
@@ -437,11 +333,7 @@
       font-weight: 700;
     }
 
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-      gap: 10px;
-    }
+    .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
 
     .metric-card {
       border-radius: 16px;
@@ -452,10 +344,7 @@
       overflow: hidden;
     }
 
-    .metric-card.full {
-      grid-column: 1 / -1;
-      min-height: 140px;
-    }
+    .metric-card.full { grid-column: 1 / -1; min-height: 140px; }
 
     .metric-top {
       display: flex;
@@ -465,33 +354,11 @@
       margin-bottom: 10px;
     }
 
-    .metric-title {
-      margin: 0 0 4px;
-      font-size: 15px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
+    .metric-title { margin: 0 0 4px; font-size: 15px; font-weight: 800; letter-spacing: -0.02em; }
+    .metric-hint { font-size: 12px; color: var(--muted); line-height: 1.5; }
+    .metric-type { border-radius: 999px; padding: 6px 9px; font-size: 12px; font-weight: 700; background: rgba(15, 23, 42, 0.05); white-space: nowrap; }
 
-    .metric-hint {
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    .metric-type {
-      border-radius: 999px;
-      padding: 6px 9px;
-      font-size: 12px;
-      font-weight: 700;
-      background: rgba(15, 23, 42, 0.05);
-      white-space: nowrap;
-    }
-
-    .score-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
+    .score-row { display: flex; flex-wrap: wrap; gap: 6px; }
 
     .score-chip {
       border: 1px solid rgba(148, 163, 184, 0.24);
@@ -505,35 +372,13 @@
       transition: border-color 0.18s ease, background 0.18s ease, transform 0.18s ease, color 0.18s ease;
     }
 
-    .score-chip.active {
-      background: rgba(37, 99, 235, 0.12);
-      border-color: rgba(37, 99, 235, 0.34);
-      color: var(--primary);
-    }
+    .score-chip.active { background: rgba(37, 99, 235, 0.12); border-color: rgba(37, 99, 235, 0.34); color: var(--primary); }
+    .score-chip.clear { min-width: auto; color: var(--muted); }
 
-    .score-chip.clear {
-      min-width: auto;
-      color: var(--muted);
-    }
+    .memo-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
 
-    .memo-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .dashboard-controls {
-      display: flex;
-      gap: 12px;
-      align-items: end;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-
-    .dashboard-controls .field {
-      min-width: 180px;
-    }
+    .dashboard-controls { display: flex; gap: 12px; align-items: end; flex-wrap: wrap; margin-bottom: 16px; }
+    .dashboard-controls .field { min-width: 180px; }
 
     .chart-wrap {
       border-radius: 20px;
@@ -546,12 +391,7 @@
       padding: 14px;
     }
 
-    .metric-insights {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 14px;
-    }
+    .metric-insights { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
 
     .insight-box {
       border-radius: 16px;
@@ -560,51 +400,16 @@
       border: 1px solid rgba(148, 163, 184, 0.18);
     }
 
-    .insight-box .mini-label {
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
+    .insight-box .mini-label { color: var(--muted); font-size: 12px; margin-bottom: 8px; }
+    .insight-box .value { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
 
-    .insight-box .value {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-    }
+    .trend-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 
-    .trend-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
+    .trend-card { border-radius: 20px; padding: 16px; display: grid; gap: 12px; cursor: pointer; }
 
-    .trend-card {
-      border-radius: 20px;
-      padding: 16px;
-      display: grid;
-      gap: 12px;
-      cursor: pointer;
-    }
-
-    .trend-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: flex-start;
-    }
-
-    .trend-title {
-      margin: 0 0 6px;
-      font-size: 16px;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .trend-caption {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.55;
-    }
+    .trend-top { display: flex; justify-content: space-between; gap: 12px; align-items: flex-start; }
+    .trend-title { margin: 0 0 6px; font-size: 16px; font-weight: 800; letter-spacing: -0.02em; }
+    .trend-caption { font-size: 13px; color: var(--muted); line-height: 1.55; }
 
     .trend-chip {
       display: inline-flex;
@@ -618,19 +423,9 @@
       white-space: nowrap;
     }
 
-    .trend-meta {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 13px;
-    }
+    .trend-meta { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 13px; }
 
-    .snapshot-table {
-      border-radius: 20px;
-      overflow: hidden;
-    }
+    .snapshot-table { border-radius: 20px; overflow: hidden; }
 
     .snapshot-row {
       display: grid;
@@ -652,16 +447,9 @@
       color: var(--muted-soft);
     }
 
-    .snapshot-row strong {
-      font-size: 15px;
-      letter-spacing: -0.02em;
-    }
+    .snapshot-row strong { font-size: 15px; letter-spacing: -0.02em; }
 
-    .config-list {
-      display: grid;
-      gap: 10px;
-      margin-bottom: 16px;
-    }
+    .config-list { display: grid; gap: 10px; margin-bottom: 16px; }
 
     .config-row {
       border-radius: 16px;
@@ -672,27 +460,12 @@
       align-items: center;
     }
 
-    .config-row input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      cursor: pointer;
-    }
+    .config-row input[type="checkbox"] { width: 18px; height: 18px; cursor: pointer; }
 
-    .add-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 10px;
-    }
-
+    .add-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 10px; }
     .span-2 { grid-column: 1 / -1; }
 
-    .goal-hero {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
+    .goal-hero { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 14px; margin-bottom: 18px; }
 
     .goal-box {
       border-radius: 18px;
@@ -701,25 +474,10 @@
       border: 1px solid rgba(148, 163, 184, 0.18);
     }
 
-    .goal-box h3 {
-      margin: 0 0 10px;
-      font-size: 20px;
-      letter-spacing: -0.03em;
-    }
+    .goal-box h3 { margin: 0 0 10px; font-size: 20px; letter-spacing: -0.03em; }
+    .goal-box p { margin: 0; color: var(--muted); line-height: 1.75; font-size: 14px; }
 
-    .goal-box p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.75;
-      font-size: 14px;
-    }
-
-    .goal-chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-    }
+    .goal-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
 
     .goal-chip {
       display: inline-flex;
@@ -741,18 +499,14 @@
       border: 1px solid rgba(148, 163, 184, 0.18);
     }
 
-    .goal-table th,
-    .goal-table td {
+    .goal-table th, .goal-table td {
       padding: 10px 12px;
       border-bottom: 1px solid rgba(148, 163, 184, 0.12);
       text-align: right;
       font-size: 13px;
     }
 
-    .goal-table th:first-child,
-    .goal-table td:first-child {
-      text-align: left;
-    }
+    .goal-table th:first-child, .goal-table td:first-child { text-align: left; }
 
     .goal-table thead th {
       background: rgba(255, 255, 255, 0.92);
@@ -763,10 +517,7 @@
       font-size: 12px;
     }
 
-    .goal-table tbody tr.highlight {
-      background: rgba(15, 118, 110, 0.08);
-      font-weight: 700;
-    }
+    .goal-table tbody tr.highlight { background: rgba(15, 118, 110, 0.08); font-weight: 700; }
 
     .empty {
       width: 100%;
@@ -801,6 +552,12 @@
       background: rgba(255, 255, 255, 0.95);
     }
 
+    .modal-card.auth-card {
+      width: min(460px, 100%);
+      max-height: min(88vh, 680px);
+      padding: 32px;
+    }
+
     .modal-head {
       display: flex;
       justify-content: space-between;
@@ -809,19 +566,8 @@
       margin-bottom: 18px;
     }
 
-    .modal-title {
-      margin: 0;
-      font-size: 26px;
-      letter-spacing: -0.04em;
-    }
-
-    .modal-subtitle {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-      max-width: 780px;
-    }
+    .modal-title { margin: 0; font-size: 26px; letter-spacing: -0.04em; }
+    .modal-subtitle { margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 780px; }
 
     .close-btn {
       border: none;
@@ -849,103 +595,150 @@
       z-index: 40;
     }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateY(0);
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── Auth styles ── */
+    .auth-error {
+      background: rgba(185, 28, 28, 0.08);
+      border: 1px solid rgba(185, 28, 28, 0.2);
+      color: var(--danger);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 14px;
     }
 
-    @media (max-width: 1180px) {
-      .hero-top,
-      .goal-hero {
-        grid-template-columns: 1fr;
-      }
+    .auth-success {
+      background: rgba(15, 118, 110, 0.08);
+      border: 1px solid rgba(15, 118, 110, 0.2);
+      color: var(--finance);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
 
-      .summary-grid,
-      .metric-insights {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+    .auth-form .field { margin-bottom: 14px; }
+
+    .auth-segmented {
+      display: flex;
+      gap: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.24);
+      margin-bottom: 24px;
+    }
+
+    .auth-tab {
+      flex: 1;
+      border: none;
+      padding: 11px;
+      background: rgba(255, 255, 255, 0.6);
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 14px;
+      transition: background 0.18s, color 0.18s;
+    }
+
+    .auth-tab.active {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      color: #fff;
+    }
+
+    .auth-tab:first-child { border-radius: 13px 0 0 13px; }
+    .auth-tab:last-child { border-radius: 0 13px 13px 0; }
+
+    /* user info bar */
+    .user-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+
+    .save-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .save-dot.saving { background: #f59e0b; animation: pulse 1s infinite; }
+    .save-dot.error { background: var(--danger); }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* loading overlay */
+    #appLoader {
+      position: fixed;
+      inset: 0;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      gap: 16px;
+      transition: opacity 0.3s;
+    }
+
+    #appLoader.hidden { opacity: 0; pointer-events: none; }
+
+    .loader-spinner {
+      width: 40px; height: 40px;
+      border: 3px solid rgba(37, 99, 235, 0.15);
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 1180px) {
+      .hero-top, .goal-hero { grid-template-columns: 1fr; }
+      .summary-grid, .metric-insights { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (max-width: 900px) {
-      .trend-grid,
-      .memo-grid,
-      .add-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .config-row,
-      .snapshot-row {
-        grid-template-columns: 1fr;
-      }
-
-      .snapshot-row.header {
-        display: none;
-      }
-
-      .snapshot-row {
-        gap: 6px;
-      }
-
-      .snapshot-row > div::before {
-        content: attr(data-label);
-        display: block;
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--muted-soft);
-        margin-bottom: 4px;
-      }
+      .trend-grid, .memo-grid, .add-grid { grid-template-columns: 1fr; }
+      .config-row, .snapshot-row { grid-template-columns: 1fr; }
+      .snapshot-row.header { display: none; }
+      .snapshot-row { gap: 6px; }
+      .snapshot-row > div::before { content: attr(data-label); display: block; font-size: 12px; font-weight: 700; color: var(--muted-soft); margin-bottom: 4px; }
     }
 
     @media (max-width: 760px) {
-      .shell {
-        width: min(100vw - 16px, 100%);
-        padding-top: 14px;
-      }
-
-      .hero,
-      .panel,
-      .summary-card,
-      .trend-card,
-      .metric-card,
-      .modal-card,
-      .snapshot-table,
-      .config-row {
-        border-radius: 18px;
-      }
-
-      .hero-side,
-      .hero-actions,
-      .hero-toolbar {
-        justify-items: stretch;
-        justify-content: flex-start;
-        min-width: 0;
-      }
-
-      .segmented {
-        width: 100%;
-        justify-content: space-between;
-      }
-
-      .segment-btn {
-        min-width: auto;
-        flex: 1;
-      }
-
-      .summary-grid,
-      .metric-insights {
-        grid-template-columns: 1fr;
-      }
-
-      .compact-toolbar,
-      .dashboard-controls,
-      .hero-toolbar {
-        flex-direction: column;
-        align-items: stretch;
-      }
+      .shell { width: min(100vw - 16px, 100%); padding-top: 14px; }
+      .hero, .panel, .summary-card, .trend-card, .metric-card, .modal-card, .snapshot-table, .config-row { border-radius: 18px; }
+      .hero-side, .hero-actions, .hero-toolbar { justify-items: stretch; justify-content: flex-start; min-width: 0; }
+      .segmented { width: 100%; justify-content: space-between; }
+      .segment-btn { min-width: auto; flex: 1; }
+      .summary-grid, .metric-insights { grid-template-columns: 1fr; }
+      .compact-toolbar, .dashboard-controls, .hero-toolbar { flex-direction: column; align-items: stretch; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Loading overlay -->
+  <div id="appLoader">
+    <div class="loader-spinner"></div>
+    <div style="color: var(--muted); font-size: 14px;">正在检查登录状态…</div>
+  </div>
+
   <div class="shell">
     <section class="hero">
       <div class="hero-top">
@@ -960,6 +753,20 @@
           <div class="segmented" id="viewSwitch">
             <button class="segment-btn active" data-view="entry">月度详情</button>
             <button class="segment-btn" data-view="dashboard">汇总分析</button>
+          </div>
+          <div class="hero-toolbar">
+            <!-- Auth area -->
+            <div id="authPromptArea" style="display:none;">
+              <button id="openAuthBtn" class="utility-btn primary">☁ 登录 / 注册</button>
+            </div>
+            <div id="userInfoArea" style="display:none;">
+              <div class="user-bar">
+                <span id="saveDot" class="save-dot"></span>
+                <span id="saveStatusText" style="color:var(--muted); font-size:12px;">已同步</span>
+                <span id="userEmailText" style="color:var(--muted-soft); max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></span>
+                <button id="logoutBtn" class="btn small ghost">退出</button>
+              </div>
+            </div>
           </div>
           <div class="hero-toolbar">
             <button id="openGoalBtn" class="utility-btn ghost">目标</button>
@@ -1043,6 +850,74 @@
     </section>
   </div>
 
+  <!-- Auth Modal -->
+  <div id="authModal" class="modal">
+    <div class="modal-card auth-card">
+      <div style="text-align:center; margin-bottom: 24px;">
+        <div style="font-size: 36px; margin-bottom: 8px;">🔥</div>
+        <h2 class="modal-title" style="font-size: 22px; text-align:center;">燎原 FIRE Atlas</h2>
+        <p style="color:var(--muted); font-size: 13px; margin: 8px 0 0; line-height:1.7;">登录后数据自动同步云端，换设备也不丢失</p>
+      </div>
+
+      <div class="auth-segmented">
+        <button class="auth-tab active" id="tabLoginBtn">登录</button>
+        <button class="auth-tab" id="tabRegisterBtn">注册账号</button>
+      </div>
+
+      <!-- Login -->
+      <form id="loginForm" class="auth-form">
+        <div class="field">
+          <label class="label" for="loginEmail">邮箱</label>
+          <input id="loginEmail" type="email" placeholder="your@email.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label class="label" for="loginPassword">密码</label>
+          <input id="loginPassword" type="password" placeholder="至少 6 位" autocomplete="current-password" required />
+        </div>
+        <div id="loginError" class="auth-error" style="display:none;"></div>
+        <button class="btn primary" type="submit" id="loginSubmitBtn" style="width:100%; padding: 13px;">登录</button>
+        <div style="text-align:center; margin-top: 14px;">
+          <button type="button" id="forgotPasswordBtn" style="border:none; background:none; color:var(--muted); font-size:13px; cursor:pointer; text-decoration:underline;">忘记密码？</button>
+        </div>
+      </form>
+
+      <!-- Register -->
+      <form id="registerForm" class="auth-form" style="display:none;">
+        <div class="field">
+          <label class="label" for="registerEmail">邮箱</label>
+          <input id="registerEmail" type="email" placeholder="your@email.com" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label class="label" for="registerPassword">密码</label>
+          <input id="registerPassword" type="password" placeholder="至少 6 位" autocomplete="new-password" required />
+        </div>
+        <div class="field">
+          <label class="label" for="registerConfirm">确认密码</label>
+          <input id="registerConfirm" type="password" placeholder="再次输入密码" autocomplete="new-password" required />
+        </div>
+        <div id="registerError" class="auth-error" style="display:none;"></div>
+        <div id="registerSuccess" class="auth-success" style="display:none;"></div>
+        <button class="btn primary" type="submit" id="registerSubmitBtn" style="width:100%; padding: 13px;">注册</button>
+      </form>
+
+      <!-- Forgot Password -->
+      <form id="resetForm" class="auth-form" style="display:none;">
+        <p style="color:var(--muted); font-size:14px; margin-bottom:16px; line-height:1.7;">输入注册邮箱，将向你的邮箱发送密码重置链接。</p>
+        <div class="field">
+          <label class="label" for="resetEmail">邮箱</label>
+          <input id="resetEmail" type="email" placeholder="your@email.com" required />
+        </div>
+        <div id="resetError" class="auth-error" style="display:none;"></div>
+        <div id="resetSuccess" class="auth-success" style="display:none;"></div>
+        <button class="btn primary" type="submit" id="resetSubmitBtn" style="width:100%; padding: 13px;">发送重置链接</button>
+        <div style="text-align:center; margin-top: 14px;">
+          <button type="button" id="backToLoginBtn" style="border:none; background:none; color:var(--muted); font-size:13px; cursor:pointer; text-decoration:underline;">返回登录</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Goal Modal -->
   <div id="goalModal" class="modal">
     <div class="modal-card">
       <div class="modal-head">
@@ -1079,6 +954,7 @@
     </div>
   </div>
 
+  <!-- Config Modal -->
   <div id="configModal" class="modal">
     <div class="modal-card">
       <div class="modal-head">
@@ -1126,91 +1002,119 @@
 
   <script>
     (() => {
+      /* ═══════════════════════════════════════════
+         Supabase 配置
+      ═══════════════════════════════════════════ */
+      const SUPABASE_URL = 'https://biommhqjqpnozwkqwddi.supabase.co';
+      const SUPABASE_ANON_KEY = 'sb_publishable_W0SY9bryhUSnQvRIsoWkZA_iyZidHZs';
+      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+      /* ═══════════════════════════════════════════
+         常量
+      ═══════════════════════════════════════════ */
       const STORAGE_KEY = "fire-atlas-tracker-v3";
-      const LEGACY_STORAGE_KEYS = [
-        "monthly-metrics-public-site-v2",
-        "monthly-metrics-public-site-v1"
-      ];
+      const LEGACY_STORAGE_KEYS = ["monthly-metrics-public-site-v2", "monthly-metrics-public-site-v1"];
       const CATEGORY_ORDER = ["finance", "investment", "health", "life", "growth", "custom"];
       const CATEGORY_META = {
-        finance: { label: "财务", subtitle: "收入、支出、储蓄与现金流", className: "finance", color: "#0f766e" },
-        investment: { label: "投资", subtitle: "投资动作、收益与总资产净值", className: "investment", color: "#6d28d9" },
-        health: { label: "健康", subtitle: "锻炼、睡眠恢复与压力水平", className: "health", color: "#2563eb" },
-        life: { label: "生活", subtitle: "自由感、满意度与生活质量", className: "life", color: "#ea580c" },
-        growth: { label: "成长", subtitle: "学习投入与长期能力建设", className: "growth", color: "#4f46e5" },
-        custom: { label: "自定义", subtitle: "你自己定义的新指标", className: "custom", color: "#4f46e5" }
+        finance:    { label: "财务",   subtitle: "收入、支出、储蓄与现金流",          className: "finance",    color: "#0f766e" },
+        investment: { label: "投资",   subtitle: "投资动作、收益与总资产净值",         className: "investment", color: "#6d28d9" },
+        health:     { label: "健康",   subtitle: "锻炼、睡眠恢复与压力水平",          className: "health",     color: "#2563eb" },
+        life:       { label: "生活",   subtitle: "自由感、满意度与生活质量",          className: "life",       color: "#ea580c" },
+        growth:     { label: "成长",   subtitle: "学习投入与长期能力建设",            className: "growth",     color: "#4f46e5" },
+        custom:     { label: "自定义", subtitle: "你自己定义的新指标",               className: "custom",     color: "#4f46e5" }
       };
       const TYPE_META = {
-        currency: { label: "金额", placeholder: "例如：12000" },
-        percent: { label: "百分比", placeholder: "例如：8.5" },
-        number: { label: "数值", placeholder: "例如：12" },
-        score: { label: "评分", placeholder: "1-10" },
-        text: { label: "文本", placeholder: "记录一句话" }
+        currency: { label: "金额",   placeholder: "例如：12000" },
+        percent:  { label: "百分比", placeholder: "例如：8.5" },
+        number:   { label: "数值",   placeholder: "例如：12" },
+        score:    { label: "评分",   placeholder: "1-10" },
+        text:     { label: "文本",   placeholder: "记录一句话" }
       };
       const DEFAULT_METRICS = [
-        { id: "after_tax_income", name: "税后收入", category: "finance", type: "currency", active: true, hint: "本月实际到账总收入" },
-        { id: "monthly_expense", name: "本月支出", category: "finance", type: "currency", active: true, hint: "本月全部消费和固定支出" },
-        { id: "monthly_investment", name: "本月新增投资", category: "investment", type: "currency", active: true, hint: "本月新投入的基金、ETF、股票等总额" },
-        { id: "monthly_investment_profit", name: "本月投资收益", category: "investment", type: "currency", active: true, hint: "本月投资账户实际浮盈或已实现收益" },
-        { id: "net_worth", name: "总资产净值", category: "investment", type: "currency", active: true, hint: "本月末全部净资产估值" },
-        { id: "exercise_count", name: "锻炼次数", category: "health", type: "number", active: true, hint: "本月完成的运动次数" },
-        { id: "stress_level", name: "压力水平", category: "health", type: "score", active: true, hint: "综合看本月压力状态，1 低 10 高" },
-        { id: "energy_score", name: "恢复感", category: "health", type: "score", active: true, hint: "综合睡眠、精力和恢复程度" },
-        { id: "life_score", name: "生活满意度", category: "life", type: "score", active: true, hint: "这个月整体生活状态如何" },
-        { id: "learning_hours", name: "学习投入小时", category: "growth", type: "number", active: true, hint: "本月学习、阅读、课程总时长" }
+        { id: "after_tax_income",          name: "税后收入",       category: "finance",    type: "currency", active: true, hint: "本月实际到账总收入" },
+        { id: "monthly_expense",           name: "本月支出",       category: "finance",    type: "currency", active: true, hint: "本月全部消费和固定支出" },
+        { id: "monthly_investment",        name: "本月新增投资",   category: "investment", type: "currency", active: true, hint: "本月新投入的基金、ETF、股票等总额" },
+        { id: "monthly_investment_profit", name: "本月投资收益",   category: "investment", type: "currency", active: true, hint: "本月投资账户实际浮盈或已实现收益" },
+        { id: "net_worth",                 name: "总资产净值",     category: "investment", type: "currency", active: true, hint: "本月末全部净资产估值" },
+        { id: "exercise_count",            name: "锻炼次数",       category: "health",     type: "number",   active: true, hint: "本月完成的运动次数" },
+        { id: "stress_level",             name: "压力水平",       category: "health",     type: "score",    active: true, hint: "综合看本月压力状态，1 低 10 高" },
+        { id: "energy_score",             name: "恢复感",         category: "health",     type: "score",    active: true, hint: "综合睡眠、精力和恢复程度" },
+        { id: "life_score",               name: "生活满意度",     category: "life",       type: "score",    active: true, hint: "这个月整体生活状态如何" },
+        { id: "learning_hours",           name: "学习投入小时",   category: "growth",     type: "number",   active: true, hint: "本月学习、阅读、课程总时长" }
       ];
       const GOAL_PLAN = [
-        [1, 37.0, 27.75, 13.88, 13.88],
-        [2, 37.0, 27.75, 13.88, 28.17],
-        [3, 37.0, 27.75, 13.88, 42.89],
-        [4, 44.4, 33.3, 16.65, 60.82],
-        [5, 44.4, 33.3, 16.65, 79.30],
-        [6, 44.4, 33.3, 16.65, 98.33],
-        [7, 53.28, 39.96, 19.98, 121.26],
-        [8, 53.28, 39.96, 19.98, 144.87],
-        [9, 53.28, 39.96, 19.98, 169.20],
-        [10, 63.94, 47.95, 23.98, 198.25],
-        [11, 63.94, 47.95, 23.98, 228.18],
-        [12, 63.94, 47.95, 23.98, 259.00],
-        [13, 76.72, 57.54, 28.77, 295.54],
-        [14, 76.72, 57.54, 28.77, 333.18],
-        [15, 76.72, 57.54, 28.77, 371.94],
-        [16, 92.07, 69.05, 34.53, 417.63],
-        [17, 92.07, 69.05, 34.53, 464.68],
-        [18, 92.07, 69.05, 34.53, 513.15]
+        [1,37.0,27.75,13.88,13.88],[2,37.0,27.75,13.88,28.17],[3,37.0,27.75,13.88,42.89],
+        [4,44.4,33.3,16.65,60.82],[5,44.4,33.3,16.65,79.30],[6,44.4,33.3,16.65,98.33],
+        [7,53.28,39.96,19.98,121.26],[8,53.28,39.96,19.98,144.87],[9,53.28,39.96,19.98,169.20],
+        [10,63.94,47.95,23.98,198.25],[11,63.94,47.95,23.98,228.18],[12,63.94,47.95,23.98,259.00],
+        [13,76.72,57.54,28.77,295.54],[14,76.72,57.54,28.77,333.18],[15,76.72,57.54,28.77,371.94],
+        [16,92.07,69.05,34.53,417.63],[17,92.07,69.05,34.53,464.68],[18,92.07,69.05,34.53,513.15]
       ];
 
-      const monthPicker = document.getElementById("monthPicker");
-      const saveMonthBtn = document.getElementById("saveMonthBtn");
-      const clearMonthBtn = document.getElementById("clearMonthBtn");
-      const exportBtn = document.getElementById("exportBtn");
-      const viewSwitch = document.getElementById("viewSwitch");
-      const entryView = document.getElementById("entryView");
-      const dashboardView = document.getElementById("dashboardView");
-      const focusSummary = document.getElementById("focusSummary");
-      const moduleStack = document.getElementById("moduleStack");
-      const memoGrid = document.getElementById("memoGrid");
-      const rangeStartSelect = document.getElementById("rangeStartSelect");
-      const rangeEndSelect = document.getElementById("rangeEndSelect");
+      /* ═══════════════════════════════════════════
+         DOM refs
+      ═══════════════════════════════════════════ */
+      const monthPicker       = document.getElementById("monthPicker");
+      const saveMonthBtn      = document.getElementById("saveMonthBtn");
+      const clearMonthBtn     = document.getElementById("clearMonthBtn");
+      const exportBtn         = document.getElementById("exportBtn");
+      const viewSwitch        = document.getElementById("viewSwitch");
+      const entryView         = document.getElementById("entryView");
+      const dashboardView     = document.getElementById("dashboardView");
+      const focusSummary      = document.getElementById("focusSummary");
+      const moduleStack       = document.getElementById("moduleStack");
+      const memoGrid          = document.getElementById("memoGrid");
+      const rangeStartSelect  = document.getElementById("rangeStartSelect");
+      const rangeEndSelect    = document.getElementById("rangeEndSelect");
       const trendMetricSelect = document.getElementById("trendMetricSelect");
-      const mainTrendChart = document.getElementById("mainTrendChart");
-      const metricInsights = document.getElementById("metricInsights");
-      const trendGrid = document.getElementById("trendGrid");
-      const snapshotTable = document.getElementById("snapshotTable");
-      const openGoalBtn = document.getElementById("openGoalBtn");
-      const openConfigBtn = document.getElementById("openConfigBtn");
-      const goalModal = document.getElementById("goalModal");
-      const configModal = document.getElementById("configModal");
-      const goalTable = document.getElementById("goalTable");
-      const resetMetricsBtn = document.getElementById("resetMetricsBtn");
-      const configList = document.getElementById("configList");
-      const addMetricForm = document.getElementById("addMetricForm");
-      const newMetricName = document.getElementById("newMetricName");
+      const mainTrendChart    = document.getElementById("mainTrendChart");
+      const metricInsights    = document.getElementById("metricInsights");
+      const trendGrid         = document.getElementById("trendGrid");
+      const snapshotTable     = document.getElementById("snapshotTable");
+      const openGoalBtn       = document.getElementById("openGoalBtn");
+      const openConfigBtn     = document.getElementById("openConfigBtn");
+      const goalModal         = document.getElementById("goalModal");
+      const configModal       = document.getElementById("configModal");
+      const authModal         = document.getElementById("authModal");
+      const goalTable         = document.getElementById("goalTable");
+      const resetMetricsBtn   = document.getElementById("resetMetricsBtn");
+      const configList        = document.getElementById("configList");
+      const addMetricForm     = document.getElementById("addMetricForm");
+      const newMetricName     = document.getElementById("newMetricName");
       const newMetricCategory = document.getElementById("newMetricCategory");
-      const newMetricType = document.getElementById("newMetricType");
-      const newMetricHint = document.getElementById("newMetricHint");
-      const toast = document.getElementById("toast");
+      const newMetricType     = document.getElementById("newMetricType");
+      const newMetricHint     = document.getElementById("newMetricHint");
+      const toast             = document.getElementById("toast");
+      const appLoader         = document.getElementById("appLoader");
 
+      /* auth DOM */
+      const openAuthBtn      = document.getElementById("openAuthBtn");
+      const authPromptArea   = document.getElementById("authPromptArea");
+      const userInfoArea     = document.getElementById("userInfoArea");
+      const userEmailText    = document.getElementById("userEmailText");
+      const saveDot          = document.getElementById("saveDot");
+      const saveStatusText   = document.getElementById("saveStatusText");
+      const logoutBtn        = document.getElementById("logoutBtn");
+
+      const tabLoginBtn      = document.getElementById("tabLoginBtn");
+      const tabRegisterBtn   = document.getElementById("tabRegisterBtn");
+      const loginForm        = document.getElementById("loginForm");
+      const registerForm     = document.getElementById("registerForm");
+      const resetForm        = document.getElementById("resetForm");
+      const loginSubmitBtn   = document.getElementById("loginSubmitBtn");
+      const registerSubmitBtn= document.getElementById("registerSubmitBtn");
+      const resetSubmitBtn   = document.getElementById("resetSubmitBtn");
+      const forgotPasswordBtn= document.getElementById("forgotPasswordBtn");
+      const backToLoginBtn   = document.getElementById("backToLoginBtn");
+      const loginError       = document.getElementById("loginError");
+      const registerError    = document.getElementById("registerError");
+      const registerSuccess  = document.getElementById("registerSuccess");
+      const resetError       = document.getElementById("resetError");
+      const resetSuccess     = document.getElementById("resetSuccess");
+
+      /* ═══════════════════════════════════════════
+         State
+      ═══════════════════════════════════════════ */
       let state = loadState();
       let currentMonth = getCurrentMonthKey();
       let activeView = "entry";
@@ -1219,14 +1123,307 @@
       let rangeEnd = null;
       let toastTimer = null;
 
+      let currentUser = null;
+      let cloudSaveTimer = null;
+      let isSyncing = false;
+
+      /* ═══════════════════════════════════════════
+         Boot
+      ═══════════════════════════════════════════ */
       fillSelectOptions();
       ensureRecord(currentMonth);
       ensureSelectedTrendMetric();
       syncRangeWithData();
       bindEvents();
+      bindAuthEvents();
       renderGoalTable();
-      render();
+      render();   // render immediately from localStorage
 
+      // then check Supabase session
+      initAuth();
+
+      /* ═══════════════════════════════════════════
+         Auth: init & listeners
+      ═══════════════════════════════════════════ */
+      async function initAuth() {
+        try {
+          const { data: { session } } = await sb.auth.getSession();
+          currentUser = session?.user || null;
+          if (currentUser) {
+            await loadStateFromSupabase();
+            renderAfterAuth();
+          } else {
+            renderAfterAuth();
+          }
+        } catch (err) {
+          console.warn('Auth check failed:', err);
+          renderAfterAuth();
+        }
+      }
+
+      function renderAfterAuth() {
+        updateAuthUI();
+        hideLoader();
+        render();
+      }
+
+      // listen for auth changes (login, logout, token refresh)
+      sb.auth.onAuthStateChange(async (event, session) => {
+        const prevUser = currentUser;
+        currentUser = session?.user || null;
+
+        if (event === 'SIGNED_IN' && currentUser && !prevUser) {
+          closeModal(authModal);
+          showToast('登录成功，正在同步数据…');
+          await loadStateFromSupabase();
+          updateAuthUI();
+          render();
+        } else if (event === 'SIGNED_OUT') {
+          updateAuthUI();
+          render();
+        }
+      });
+
+      /* ═══════════════════════════════════════════
+         Supabase data R/W
+      ═══════════════════════════════════════════ */
+      async function loadStateFromSupabase() {
+        if (!currentUser) return;
+        try {
+          const { data, error } = await sb
+            .from('fire_atlas_data')
+            .select('state')
+            .eq('user_id', currentUser.id)
+            .maybeSingle();
+
+          if (error) { console.warn('Load error:', error); return; }
+          if (data?.state) {
+            state = normalizeState(data.state);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            ensureRecord(currentMonth);
+            ensureSelectedTrendMetric();
+            syncRangeWithData();
+          }
+        } catch (err) {
+          console.warn('loadStateFromSupabase failed:', err);
+        }
+      }
+
+      async function persistToSupabase() {
+        if (!currentUser || isSyncing) return;
+        isSyncing = true;
+        setSaveStatus('saving');
+        try {
+          const { error } = await sb
+            .from('fire_atlas_data')
+            .upsert(
+              { user_id: currentUser.id, state: state, updated_at: new Date().toISOString() },
+              { onConflict: 'user_id' }
+            );
+          if (error) {
+            console.warn('Supabase save error:', error);
+            setSaveStatus('error');
+          } else {
+            setSaveStatus('ok');
+          }
+        } catch (err) {
+          console.warn('persistToSupabase failed:', err);
+          setSaveStatus('error');
+        } finally {
+          isSyncing = false;
+        }
+      }
+
+      /* ═══════════════════════════════════════════
+         Auth UI helpers
+      ═══════════════════════════════════════════ */
+      function updateAuthUI() {
+        if (currentUser) {
+          authPromptArea.style.display = 'none';
+          userInfoArea.style.display = 'block';
+          userEmailText.textContent = currentUser.email;
+          setSaveStatus('ok');
+        } else {
+          authPromptArea.style.display = 'block';
+          userInfoArea.style.display = 'none';
+        }
+      }
+
+      function setSaveStatus(status) {
+        saveDot.className = 'save-dot';
+        if (status === 'saving') {
+          saveDot.classList.add('saving');
+          saveStatusText.textContent = '同步中…';
+        } else if (status === 'error') {
+          saveDot.classList.add('error');
+          saveStatusText.textContent = '同步失败';
+        } else {
+          saveStatusText.textContent = '已同步';
+        }
+      }
+
+      function hideLoader() {
+        appLoader.classList.add('hidden');
+        setTimeout(() => { appLoader.style.display = 'none'; }, 320);
+      }
+
+      function showAuthError(el, msg) {
+        el.textContent = msg;
+        el.style.display = 'block';
+      }
+
+      function hideAuthMessages() {
+        [loginError, registerError, registerSuccess, resetError, resetSuccess].forEach((el) => {
+          el.style.display = 'none';
+          el.textContent = '';
+        });
+      }
+
+      function setAuthTab(tab) {
+        // tab: 'login' | 'register' | 'reset'
+        loginForm.style.display    = tab === 'login'    ? 'block' : 'none';
+        registerForm.style.display = tab === 'register' ? 'block' : 'none';
+        resetForm.style.display    = tab === 'reset'    ? 'block' : 'none';
+        tabLoginBtn.classList.toggle('active',    tab === 'login');
+        tabRegisterBtn.classList.toggle('active', tab === 'register');
+        hideAuthMessages();
+      }
+
+      /* ═══════════════════════════════════════════
+         Auth event bindings
+      ═══════════════════════════════════════════ */
+      function bindAuthEvents() {
+        openAuthBtn.addEventListener('click', () => {
+          setAuthTab('login');
+          openModal(authModal);
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+          await sb.auth.signOut();
+          showToast('已退出登录');
+        });
+
+        tabLoginBtn.addEventListener('click', () => setAuthTab('login'));
+        tabRegisterBtn.addEventListener('click', () => setAuthTab('register'));
+        forgotPasswordBtn.addEventListener('click', () => setAuthTab('reset'));
+        backToLoginBtn.addEventListener('click', () => setAuthTab('login'));
+
+        /* Login */
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          hideAuthMessages();
+          const email    = document.getElementById('loginEmail').value.trim();
+          const password = document.getElementById('loginPassword').value;
+          loginSubmitBtn.disabled = true;
+          loginSubmitBtn.textContent = '登录中…';
+          const { error } = await sb.auth.signInWithPassword({ email, password });
+          loginSubmitBtn.disabled = false;
+          loginSubmitBtn.textContent = '登录';
+          if (error) showAuthError(loginError, friendlyAuthError(error.message));
+          // success handled by onAuthStateChange
+        });
+
+        /* Register */
+        registerForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          hideAuthMessages();
+          const email    = document.getElementById('registerEmail').value.trim();
+          const password = document.getElementById('registerPassword').value;
+          const confirm  = document.getElementById('registerConfirm').value;
+          if (password !== confirm) {
+            showAuthError(registerError, '两次密码输入不一致，请检查。');
+            return;
+          }
+          if (password.length < 6) {
+            showAuthError(registerError, '密码至少需要 6 位字符。');
+            return;
+          }
+          registerSubmitBtn.disabled = true;
+          registerSubmitBtn.textContent = '注册中…';
+          const { error } = await sb.auth.signUp({ email, password });
+          registerSubmitBtn.disabled = false;
+          registerSubmitBtn.textContent = '注册';
+          if (error) {
+            showAuthError(registerError, friendlyAuthError(error.message));
+          } else {
+            registerSuccess.textContent = '注册成功！请查收验证邮件并点击链接确认，然后回来登录。';
+            registerSuccess.style.display = 'block';
+            setTimeout(() => setAuthTab('login'), 3000);
+          }
+        });
+
+        /* Reset password */
+        resetForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          hideAuthMessages();
+          const email = document.getElementById('resetEmail').value.trim();
+          resetSubmitBtn.disabled = true;
+          resetSubmitBtn.textContent = '发送中…';
+          const { error } = await sb.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.href
+          });
+          resetSubmitBtn.disabled = false;
+          resetSubmitBtn.textContent = '发送重置链接';
+          if (error) {
+            showAuthError(resetError, friendlyAuthError(error.message));
+          } else {
+            resetSuccess.textContent = '重置链接已发送，请检查你的邮箱（包括垃圾箱）。';
+            resetSuccess.style.display = 'block';
+          }
+        });
+
+        // click backdrop to close auth modal only if user is logged in
+        authModal.addEventListener('click', (e) => {
+          if (e.target === authModal && currentUser) closeModal(authModal);
+        });
+      }
+
+      function friendlyAuthError(msg) {
+        if (!msg) return '发生未知错误，请重试。';
+        if (msg.includes('Invalid login credentials')) return '邮箱或密码不正确，请重新输入。';
+        if (msg.includes('Email not confirmed'))       return '邮箱尚未验证，请先点击注册邮件中的链接。';
+        if (msg.includes('User already registered'))  return '该邮箱已注册，请直接登录。';
+        if (msg.includes('Password should be at least')) return '密码至少需要 6 位字符。';
+        if (msg.includes('rate limit'))               return '操作过于频繁，请稍后再试。';
+        return msg;
+      }
+
+      /* ═══════════════════════════════════════════
+         Core data functions
+      ═══════════════════════════════════════════ */
+      function loadState() {
+        const parse = (raw) => { try { return JSON.parse(raw); } catch { return null; } };
+        const current = parse(localStorage.getItem(STORAGE_KEY));
+        if (current) return normalizeState(current);
+        for (const key of LEGACY_STORAGE_KEYS) {
+          const legacy = parse(localStorage.getItem(key));
+          if (legacy) return normalizeState(legacy);
+        }
+        return { metrics: clone(DEFAULT_METRICS), records: {} };
+      }
+
+      function normalizeState(value) {
+        return {
+          metrics: Array.isArray(value.metrics) && value.metrics.length ? value.metrics : clone(DEFAULT_METRICS),
+          records: value.records && typeof value.records === "object" ? value.records : {}
+        };
+      }
+
+      function persist(silent, message) {
+        // always save locally
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        // debounce cloud save if logged in
+        if (currentUser) {
+          setSaveStatus('saving');
+          clearTimeout(cloudSaveTimer);
+          cloudSaveTimer = setTimeout(persistToSupabase, 1500);
+        }
+        if (!silent) showToast(message || "已保存");
+      }
+
+      /* ═══════════════════════════════════════════
+         Original event bindings
+      ═══════════════════════════════════════════ */
       function bindEvents() {
         viewSwitch.addEventListener("click", (event) => {
           const button = event.target.closest("[data-view]");
@@ -1273,10 +1470,7 @@
         exportBtn.addEventListener("click", exportData);
 
         openGoalBtn.addEventListener("click", () => openModal(goalModal));
-        openConfigBtn.addEventListener("click", () => {
-          renderConfig();
-          openModal(configModal);
-        });
+        openConfigBtn.addEventListener("click", () => { renderConfig(); openModal(configModal); });
 
         document.querySelectorAll("[data-close-modal]").forEach((button) => {
           button.addEventListener("click", () => closeModal(document.getElementById(button.dataset.closeModal)));
@@ -1319,31 +1513,9 @@
         });
       }
 
-      function loadState() {
-        const parse = (raw) => {
-          try { return JSON.parse(raw); } catch (error) { return null; }
-        };
-        const current = parse(localStorage.getItem(STORAGE_KEY));
-        if (current) return normalizeState(current);
-        for (const key of LEGACY_STORAGE_KEYS) {
-          const legacy = parse(localStorage.getItem(key));
-          if (legacy) return normalizeState(legacy);
-        }
-        return { metrics: clone(DEFAULT_METRICS), records: {} };
-      }
-
-      function normalizeState(value) {
-        return {
-          metrics: Array.isArray(value.metrics) && value.metrics.length ? value.metrics : clone(DEFAULT_METRICS),
-          records: value.records && typeof value.records === "object" ? value.records : {}
-        };
-      }
-
-      function persist(silent, message) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        if (!silent) showToast(message || "已保存");
-      }
-
+      /* ═══════════════════════════════════════════
+         Utilities
+      ═══════════════════════════════════════════ */
       function showToast(message) {
         toast.textContent = message;
         toast.classList.add("show");
@@ -1351,9 +1523,7 @@
         toastTimer = window.setTimeout(() => toast.classList.remove("show"), 1800);
       }
 
-      function clone(value) {
-        return JSON.parse(JSON.stringify(value));
-      }
+      function clone(value) { return JSON.parse(JSON.stringify(value)); }
 
       function getCurrentMonthKey() {
         const now = new Date();
@@ -1376,11 +1546,7 @@
 
       function syncRangeWithData() {
         const months = getSortedMonths(false);
-        if (!months.length) {
-          rangeStart = currentMonth;
-          rangeEnd = currentMonth;
-          return;
-        }
+        if (!months.length) { rangeStart = currentMonth; rangeEnd = currentMonth; return; }
         if (!rangeStart || !months.includes(rangeStart)) rangeStart = months[0];
         if (!rangeEnd || !months.includes(rangeEnd)) rangeEnd = months[months.length - 1];
         if (rangeStart > rangeEnd) rangeEnd = rangeStart;
@@ -1388,11 +1554,9 @@
 
       function fillSelectOptions() {
         newMetricCategory.innerHTML = Object.entries(CATEGORY_META)
-          .map(([value, meta]) => `<option value="${value}">${meta.label}</option>`)
-          .join("");
+          .map(([value, meta]) => `<option value="${value}">${meta.label}</option>`).join("");
         newMetricType.innerHTML = Object.entries(TYPE_META)
-          .map(([value, meta]) => `<option value="${value}">${meta.label}</option>`)
-          .join("");
+          .map(([value, meta]) => `<option value="${value}">${meta.label}</option>`).join("");
         newMetricCategory.value = "finance";
         newMetricType.value = "currency";
       }
@@ -1407,23 +1571,14 @@
           });
       }
 
-      function getMetricById(id) {
-        return state.metrics.find((metric) => metric.id === id) || null;
-      }
+      function getMetricById(id) { return state.metrics.find((m) => m.id === id) || null; }
 
-      function getTrendMetrics() {
-        return getSortedMetrics(true).filter((metric) => metric.type !== "text");
-      }
+      function getTrendMetrics() { return getSortedMetrics(true).filter((m) => m.type !== "text"); }
 
       function ensureSelectedTrendMetric() {
         const metrics = getTrendMetrics();
-        if (!metrics.length) {
-          selectedTrendMetricId = null;
-          return;
-        }
-        if (!metrics.some((metric) => metric.id === selectedTrendMetricId)) {
-          selectedTrendMetricId = metrics[0].id;
-        }
+        if (!metrics.length) { selectedTrendMetricId = null; return; }
+        if (!metrics.some((m) => m.id === selectedTrendMetricId)) selectedTrendMetricId = metrics[0].id;
       }
 
       function getRecordValue(record, metricId) {
@@ -1439,26 +1594,28 @@
       }
 
       function calculateMonthSnapshot(record) {
-        const income = getNumericValue(record, "after_tax_income");
-        const expense = getNumericValue(record, "monthly_expense");
+        const income     = getNumericValue(record, "after_tax_income");
+        const expense    = getNumericValue(record, "monthly_expense");
         const investment = getNumericValue(record, "monthly_investment");
-        const netWorth = getNumericValue(record, "net_worth");
+        const netWorth   = getNumericValue(record, "net_worth");
         return {
-          savingsRate: income !== null && expense !== null && income !== 0 ? ((income - expense) / income) * 100 : null,
+          savingsRate:       income !== null && expense !== null && income !== 0 ? ((income - expense) / income) * 100 : null,
           investIncomeRatio: income !== null && investment !== null && income !== 0 ? (investment / income) * 100 : null,
           netWorth
         };
       }
 
       function getRangeMonths() {
-        return getSortedMonths(false).filter((month) => month >= rangeStart && month <= rangeEnd);
+        return getSortedMonths(false).filter((m) => m >= rangeStart && m <= rangeEnd);
       }
 
       function buildSeries(metric) {
         return getRangeMonths()
           .map((month) => {
             const record = state.records[month];
-            const value = metric.type === "text" ? getRecordValue(record, metric.id) : getNumericValue(record, metric.id);
+            const value = metric.type === "text"
+              ? getRecordValue(record, metric.id)
+              : getNumericValue(record, metric.id);
             return { month, value };
           })
           .filter((item) => item.value !== null && item.value !== undefined && item.value !== "" && !Number.isNaN(item.value));
@@ -1466,30 +1623,23 @@
 
       function getSeriesStats(series) {
         if (!series.length) return { latest: null, previous: null, delta: null, average: null, months: 0 };
-        const latest = Number(series[series.length - 1].value);
+        const latest   = Number(series[series.length - 1].value);
         const previous = series.length > 1 ? Number(series[series.length - 2].value) : null;
-        const average = series.reduce((sum, item) => sum + Number(item.value), 0) / series.length;
-        return {
-          latest,
-          previous,
-          delta: previous === null ? null : latest - previous,
-          average,
-          months: series.length
-        };
+        const average  = series.reduce((sum, item) => sum + Number(item.value), 0) / series.length;
+        return { latest, previous, delta: previous === null ? null : latest - previous, average, months: series.length };
       }
 
       function formatMetricValue(metric, value) {
         if (value === null || value === undefined || value === "" || Number.isNaN(value)) return "--";
         if (metric.type === "currency") {
           return new Intl.NumberFormat("zh-CN", {
-            style: "currency",
-            currency: "CNY",
+            style: "currency", currency: "CNY",
             maximumFractionDigits: Number(value) % 1 === 0 ? 0 : 2
           }).format(Number(value));
         }
         if (metric.type === "percent") return `${Number(value).toFixed(1)}%`;
-        if (metric.type === "score") return `${Number(value).toFixed(0)} / 10`;
-        if (metric.type === "number") return Number(value).toLocaleString("zh-CN");
+        if (metric.type === "score")   return `${Number(value).toFixed(0)} / 10`;
+        if (metric.type === "number")  return Number(value).toLocaleString("zh-CN");
         return String(value);
       }
 
@@ -1499,6 +1649,9 @@
         return `${prefix}${formatMetricValue(metric, value)}`;
       }
 
+      /* ═══════════════════════════════════════════
+         Render
+      ═══════════════════════════════════════════ */
       function render() {
         monthPicker.value = currentMonth;
         renderView();
@@ -1524,32 +1677,11 @@
       function renderFocusSummary() {
         const record = state.records[currentMonth];
         const cards = [
-          {
-            metric: getMetricById("net_worth") || { type: "currency", category: "investment", name: "总资产净值" },
-            value: getNumericValue(record, "net_worth"),
-            label: "总资产净值",
-            sub: "作为你的自由度底盘，优先看它是否稳定上行。"
-          },
-          {
-            metric: getMetricById("monthly_investment_profit") || { type: "currency", category: "investment", name: "本月投资收益" },
-            value: getNumericValue(record, "monthly_investment_profit"),
-            label: "本月投资收益",
-            sub: "观察本月投资系统给你的时间复利带来了多少增量。"
-          },
-          {
-            metric: getMetricById("exercise_count") || { type: "number", category: "health", name: "锻炼次数" },
-            value: getNumericValue(record, "exercise_count"),
-            label: "锻炼次数",
-            sub: "自由生活离不开稳定体能，执行力要落在身体上。"
-          },
-          {
-            metric: getMetricById("stress_level") || { type: "score", category: "health", name: "压力水平" },
-            value: getNumericValue(record, "stress_level"),
-            label: "压力水平",
-            sub: "越接近长期自由，越需要监控自己的心理负荷。"
-          }
+          { metric: getMetricById("net_worth") || { type: "currency", category: "investment", name: "总资产净值" }, value: getNumericValue(record, "net_worth"), label: "总资产净值", sub: "作为你的自由度底盘，优先看它是否稳定上行。" },
+          { metric: getMetricById("monthly_investment_profit") || { type: "currency", category: "investment", name: "本月投资收益" }, value: getNumericValue(record, "monthly_investment_profit"), label: "本月投资收益", sub: "观察本月投资系统给你的时间复利带来了多少增量。" },
+          { metric: getMetricById("exercise_count") || { type: "number", category: "health", name: "锻炼次数" }, value: getNumericValue(record, "exercise_count"), label: "锻炼次数", sub: "自由生活离不开稳定体能，执行力要落在身体上。" },
+          { metric: getMetricById("stress_level") || { type: "score", category: "health", name: "压力水平" }, value: getNumericValue(record, "stress_level"), label: "压力水平", sub: "越接近长期自由，越需要监控自己的心理负荷。" }
         ];
-
         focusSummary.innerHTML = cards.map((item) => {
           const category = CATEGORY_META[item.metric.category] || CATEGORY_META.custom;
           return `
@@ -1568,7 +1700,6 @@
           if (!groups[metric.category]) groups[metric.category] = [];
           groups[metric.category].push(metric);
         });
-
         moduleStack.innerHTML = CATEGORY_ORDER
           .filter((category) => groups[category] && groups[category].length)
           .map((category) => {
@@ -1587,9 +1718,7 @@
                 </div>
               </section>
             `;
-          })
-          .join("");
-
+          }).join("");
         bindMetricInputs();
       }
 
@@ -1633,7 +1762,6 @@
             renderDashboard();
           });
         });
-
         document.querySelectorAll("[data-score-id]").forEach((button) => {
           button.addEventListener("click", () => {
             state.records[currentMonth].values[button.dataset.scoreId] = button.dataset.scoreValue;
@@ -1661,19 +1789,13 @@
           </div>
         `;
         document.getElementById("memoInput").addEventListener("input", (event) => {
-          state.records[currentMonth].memo = event.target.value;
-          persist(true);
-          renderDashboard();
+          state.records[currentMonth].memo = event.target.value; persist(true); renderDashboard();
         });
         document.getElementById("proudInput").addEventListener("input", (event) => {
-          state.records[currentMonth].proud = event.target.value;
-          persist(true);
-          renderDashboard();
+          state.records[currentMonth].proud = event.target.value; persist(true); renderDashboard();
         });
         document.getElementById("adjustInput").addEventListener("input", (event) => {
-          state.records[currentMonth].adjust = event.target.value;
-          persist(true);
-          renderDashboard();
+          state.records[currentMonth].adjust = event.target.value; persist(true); renderDashboard();
         });
       }
 
@@ -1689,7 +1811,7 @@
       function renderRangeSelectors() {
         const months = getSortedMonths(false);
         const options = months.length
-          ? months.map((month) => `<option value="${month}">${month}</option>`).join("")
+          ? months.map((m) => `<option value="${m}">${m}</option>`).join("")
           : `<option value="${currentMonth}">${currentMonth}</option>`;
         rangeStartSelect.innerHTML = options;
         rangeEndSelect.innerHTML = options;
@@ -1699,12 +1821,9 @@
 
       function renderTrendSelect() {
         const metrics = getTrendMetrics();
-        if (!metrics.length) {
-          trendMetricSelect.innerHTML = `<option value="">暂无数值型指标</option>`;
-          return;
-        }
+        if (!metrics.length) { trendMetricSelect.innerHTML = `<option value="">暂无数值型指标</option>`; return; }
         trendMetricSelect.innerHTML = metrics
-          .map((metric) => `<option value="${metric.id}" ${metric.id === selectedTrendMetricId ? "selected" : ""}>${metric.name}</option>`)
+          .map((m) => `<option value="${m.id}" ${m.id === selectedTrendMetricId ? "selected" : ""}>${m.name}</option>`)
           .join("");
       }
 
@@ -1716,12 +1835,12 @@
           return;
         }
         const series = buildSeries(metric);
-        const stats = getSeriesStats(series);
+        const stats  = getSeriesStats(series);
         mainTrendChart.innerHTML = series.length
           ? createLargeChartSvg(metric, series)
           : '<div class="empty">当前月度区间内没有这项指标的数据。尝试切换区间，或先去录入页补充记录。</div>';
         metricInsights.innerHTML = [
-          { label: "最新值", value: formatMetricValue(metric, stats.latest) },
+          { label: "最新值",   value: formatMetricValue(metric, stats.latest) },
           { label: "环比变化", value: formatDelta(metric, stats.delta) },
           { label: "区间均值", value: stats.average === null ? "--" : formatMetricValue(metric, stats.average) },
           { label: "覆盖月份", value: `${stats.months} 个月` }
@@ -1735,13 +1854,10 @@
 
       function renderTrendMatrix() {
         const metrics = getTrendMetrics();
-        if (!metrics.length) {
-          trendGrid.innerHTML = '<div class="empty">暂无可展示趋势的指标。</div>';
-          return;
-        }
+        if (!metrics.length) { trendGrid.innerHTML = '<div class="empty">暂无可展示趋势的指标。</div>'; return; }
         trendGrid.innerHTML = metrics.map((metric) => {
-          const series = buildSeries(metric);
-          const stats = getSeriesStats(series);
+          const series   = buildSeries(metric);
+          const stats    = getSeriesStats(series);
           const category = CATEGORY_META[metric.category] || CATEGORY_META.custom;
           return `
             <article class="trend-card ${category.className}" data-trend-card="${metric.id}">
@@ -1761,12 +1877,8 @@
             </article>
           `;
         }).join("");
-
         document.querySelectorAll("[data-trend-card]").forEach((card) => {
-          card.addEventListener("click", () => {
-            selectedTrendMetricId = card.dataset.trendCard;
-            renderDashboard();
-          });
+          card.addEventListener("click", () => { selectedTrendMetricId = card.dataset.trendCard; renderDashboard(); });
         });
       }
 
@@ -1778,18 +1890,12 @@
         }
         const header = `
           <div class="snapshot-row header">
-            <div>月份</div>
-            <div>总资产净值</div>
-            <div>本月投资收益</div>
-            <div>结余率</div>
-            <div>投资占收入比</div>
-            <div>锻炼次数</div>
-            <div>压力水平</div>
-            <div>备注</div>
+            <div>月份</div><div>总资产净值</div><div>本月投资收益</div>
+            <div>结余率</div><div>投资占收入比</div><div>锻炼次数</div><div>压力水平</div><div>备注</div>
           </div>
         `;
         const rows = months.map((month) => {
-          const record = state.records[month];
+          const record   = state.records[month];
           const snapshot = calculateMonthSnapshot(record);
           return `
             <div class="snapshot-row">
@@ -1811,21 +1917,14 @@
         goalTable.innerHTML = `
           <thead>
             <tr>
-              <th>第几年</th>
-              <th>税前年收入（W）</th>
-              <th>预估税后（W）</th>
-              <th>当年储蓄（W）</th>
-              <th>年末累计资产（W）</th>
+              <th>第几年</th><th>税前年收入（W）</th><th>预估税后（W）</th><th>当年储蓄（W）</th><th>年末累计资产（W）</th>
             </tr>
           </thead>
           <tbody>
             ${GOAL_PLAN.map((row) => `
               <tr class="${row[4] >= 500 ? 'highlight' : ''}">
-                <td>${row[0]}</td>
-                <td>${row[1].toFixed(2)}</td>
-                <td>${row[2].toFixed(2)}</td>
-                <td>${row[3].toFixed(2)}</td>
-                <td>${row[4].toFixed(2)}</td>
+                <td>${row[0]}</td><td>${row[1].toFixed(2)}</td><td>${row[2].toFixed(2)}</td>
+                <td>${row[3].toFixed(2)}</td><td>${row[4].toFixed(2)}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -1847,94 +1946,77 @@
       }
 
       function bindConfigInputs() {
-        document.querySelectorAll('[data-config-active]').forEach((element) => {
-          element.addEventListener('change', () => {
-            const metric = getMetricById(element.dataset.configActive);
+        document.querySelectorAll('[data-config-active]').forEach((el) => {
+          el.addEventListener('change', () => {
+            const metric = getMetricById(el.dataset.configActive);
             if (!metric) return;
-            metric.active = element.checked;
+            metric.active = el.checked;
             ensureSelectedTrendMetric();
             persist(false, '指标启用状态已更新');
-            render();
-            renderConfig();
+            render(); renderConfig();
           });
         });
-
-        document.querySelectorAll('[data-config-name]').forEach((element) => {
-          element.addEventListener('input', () => {
-            const metric = getMetricById(element.dataset.configName);
+        document.querySelectorAll('[data-config-name]').forEach((el) => {
+          el.addEventListener('input', () => {
+            const metric = getMetricById(el.dataset.configName);
             if (!metric) return;
-            metric.name = element.value;
-            persist(true);
-            render();
-            renderConfig();
+            metric.name = el.value;
+            persist(true); render(); renderConfig();
           });
         });
-
-        document.querySelectorAll('[data-config-category]').forEach((element) => {
-          element.addEventListener('change', () => {
-            const metric = getMetricById(element.dataset.configCategory);
+        document.querySelectorAll('[data-config-category]').forEach((el) => {
+          el.addEventListener('change', () => {
+            const metric = getMetricById(el.dataset.configCategory);
             if (!metric) return;
-            metric.category = element.value;
+            metric.category = el.value;
             ensureSelectedTrendMetric();
             persist(false, '指标分类已更新');
-            render();
-            renderConfig();
+            render(); renderConfig();
           });
         });
-
-        document.querySelectorAll('[data-config-type]').forEach((element) => {
-          element.addEventListener('change', () => {
-            const metric = getMetricById(element.dataset.configType);
+        document.querySelectorAll('[data-config-type]').forEach((el) => {
+          el.addEventListener('change', () => {
+            const metric = getMetricById(el.dataset.configType);
             if (!metric) return;
-            metric.type = element.value;
+            metric.type = el.value;
             ensureSelectedTrendMetric();
             persist(false, '指标类型已更新');
-            render();
-            renderConfig();
+            render(); renderConfig();
           });
         });
-
         document.querySelectorAll('[data-config-delete]').forEach((button) => {
           button.addEventListener('click', () => {
             const metricId = button.dataset.configDelete;
             const metric = getMetricById(metricId);
             if (!metric) return;
-            if (!window.confirm(`确认删除指标“${metric.name}”吗？`)) return;
+            if (!window.confirm(`确认删除指标"${metric.name}"吗？`)) return;
             state.metrics = state.metrics.filter((item) => item.id !== metricId);
             Object.values(state.records).forEach((record) => {
               if (record.values && metricId in record.values) delete record.values[metricId];
             });
             ensureSelectedTrendMetric();
             persist(false, '指标已删除');
-            render();
-            renderConfig();
+            render(); renderConfig();
           });
         });
       }
 
       function renderCategoryOptions(selected) {
         return Object.entries(CATEGORY_META)
-          .map(([value, meta]) => `<option value="${value}" ${selected === value ? 'selected' : ''}>${meta.label}</option>`)
-          .join('');
+          .map(([value, meta]) => `<option value="${value}" ${selected === value ? 'selected' : ''}>${meta.label}</option>`).join('');
       }
 
       function renderTypeOptions(selected) {
         return Object.entries(TYPE_META)
-          .map(([value, meta]) => `<option value="${value}" ${selected === value ? 'selected' : ''}>${meta.label}</option>`)
-          .join('');
+          .map(([value, meta]) => `<option value="${value}" ${selected === value ? 'selected' : ''}>${meta.label}</option>`).join('');
       }
 
-      function openModal(modal) {
-        modal.classList.add('open');
-      }
-
-      function closeModal(modal) {
-        modal.classList.remove('open');
-      }
+      function openModal(modal)  { modal.classList.add('open'); }
+      function closeModal(modal) { modal.classList.remove('open'); }
 
       function exportData() {
         const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
+        const url  = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
         link.download = `fire-atlas-${currentMonth}.json`;
@@ -1943,26 +2025,29 @@
         showToast('已导出 JSON 备份');
       }
 
+      /* ═══════════════════════════════════════════
+         Charts
+      ═══════════════════════════════════════════ */
       function createLargeChartSvg(metric, series) {
-        const width = 920;
-        const height = 320;
+        const width   = 920;
+        const height  = 320;
         const padding = { top: 24, right: 26, bottom: 42, left: 60 };
-        const chartWidth = width - padding.left - padding.right;
-        const chartHeight = height - padding.top - padding.bottom;
+        const chartWidth  = width  - padding.left - padding.right;
+        const chartHeight = height - padding.top  - padding.bottom;
         const values = series.map((item) => Number(item.value));
         let min = Math.min(...values);
         let max = Math.max(...values);
         if (min === max) { min -= 1; max += 1; }
         const points = series.map((item, index) => {
           const x = padding.left + (series.length === 1 ? chartWidth / 2 : (chartWidth / (series.length - 1)) * index);
-          const y = padding.top + ((max - Number(item.value)) / (max - min)) * chartHeight;
+          const y = padding.top  + ((max - Number(item.value)) / (max - min)) * chartHeight;
           return { x, y, month: item.month, value: Number(item.value) };
         });
-        const line = points.map((point, index) => `${index === 0 ? 'M' : 'L'}${point.x.toFixed(2)} ${point.y.toFixed(2)}`).join(' ');
+        const line = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' ');
         const area = `${line} L ${points[points.length - 1].x.toFixed(2)} ${(height - padding.bottom).toFixed(2)} L ${points[0].x.toFixed(2)} ${(height - padding.bottom).toFixed(2)} Z`;
-        const gridLines = Array.from({ length: 5 }, (_, index) => {
-          const ratio = index / 4;
-          const y = padding.top + chartHeight * ratio;
+        const gridLines = Array.from({ length: 5 }, (_, i) => {
+          const ratio = i / 4;
+          const y     = padding.top + chartHeight * ratio;
           const value = max - (max - min) * ratio;
           return `
             <g>
@@ -1971,15 +2056,15 @@
             </g>
           `;
         }).join('');
-        const xLabels = points.map((point, index) => {
-          const shouldShow = points.length <= 6 || index === 0 || index === points.length - 1 || index % Math.ceil(points.length / 6) === 0;
+        const xLabels = points.map((p, i) => {
+          const shouldShow = points.length <= 6 || i === 0 || i === points.length - 1 || i % Math.ceil(points.length / 6) === 0;
           if (!shouldShow) return '';
-          return `<text x="${point.x.toFixed(2)}" y="${(height - 14).toFixed(2)}" text-anchor="middle" fill="#64748b" font-size="12">${point.month.slice(2)}</text>`;
+          return `<text x="${p.x.toFixed(2)}" y="${(height - 14).toFixed(2)}" text-anchor="middle" fill="#64748b" font-size="12">${p.month.slice(2)}</text>`;
         }).join('');
-        const dots = points.map((point) => `
+        const dots = points.map((p) => `
           <g>
-            <circle cx="${point.x.toFixed(2)}" cy="${point.y.toFixed(2)}" r="5" fill="#ffffff" stroke="${CATEGORY_META[metric.category].color}" stroke-width="3"></circle>
-            <title>${point.month} · ${formatMetricValue(metric, point.value)}</title>
+            <circle cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="5" fill="#ffffff" stroke="${CATEGORY_META[metric.category].color}" stroke-width="3"></circle>
+            <title>${p.month} · ${formatMetricValue(metric, p.value)}</title>
           </g>
         `).join('');
         return `
@@ -2000,8 +2085,8 @@
       }
 
       function createSparklineSvg(metric, series, color) {
-        const width = 280;
-        const height = 88;
+        const width   = 280;
+        const height  = 88;
         const padding = 10;
         const values = series.map((item) => Number(item.value));
         let min = Math.min(...values);
@@ -2012,9 +2097,11 @@
           const y = padding + ((max - Number(item.value)) / (max - min)) * (height - padding * 2);
           return { x, y };
         });
-        const path = points.map((point, index) => `${index === 0 ? 'M' : 'L'}${point.x.toFixed(2)} ${point.y.toFixed(2)}`).join(' ');
+        const path = points.map((p, i) => `${i === 0 ? 'M' : 'L'}${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' ');
         const area = `${path} L ${points[points.length - 1].x.toFixed(2)} ${(height - padding).toFixed(2)} L ${points[0].x.toFixed(2)} ${(height - padding).toFixed(2)} Z`;
-        const dots = points.length <= 10 ? points.map((point) => `<circle cx="${point.x.toFixed(2)}" cy="${point.y.toFixed(2)}" r="3" fill="#fff" stroke="${color}" stroke-width="2"></circle>`).join('') : '';
+        const dots = points.length <= 10
+          ? points.map((p) => `<circle cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="3" fill="#fff" stroke="${color}" stroke-width="2"></circle>`).join('')
+          : '';
         return `
           <svg viewBox="0 0 ${width} ${height}" width="100%" height="88" role="img" aria-label="${escapeHtml(metric.name)} sparkline">
             <defs>
@@ -2030,18 +2117,17 @@
         `;
       }
 
+      /* ═══════════════════════════════════════════
+         Escape helpers
+      ═══════════════════════════════════════════ */
       function escapeHtml(value) {
         return String(value)
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/\"/g, '&quot;')
-          .replace(/'/g, '&#39;');
+          .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+          .replace(/\"/g, '&quot;').replace(/'/g, '&#39;');
       }
 
-      function escapeAttribute(value) {
-        return escapeHtml(value).replace(/`/g, '&#96;');
-      }
+      function escapeAttribute(value) { return escapeHtml(value).replace(/`/g, '&#96;'); }
+
     })();
   </script>
 </body>
