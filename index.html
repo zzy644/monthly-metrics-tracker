@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>燎原 FIRE Atlas</title>
-  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js" onerror="window.__sbFailed=true"></script>
   <style>
     :root {
       color-scheme: light;
@@ -1007,7 +1007,11 @@
       ═══════════════════════════════════════════ */
       const SUPABASE_URL = 'https://biommhqjqpnozwkqwddi.supabase.co';
       const SUPABASE_ANON_KEY = 'sb_publishable_W0SY9bryhUSnQvRIsoWkZA_iyZidHZs';
-      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      // 如果 SDK 加载失败，用空对象兜底，避免整个脚本崩溃
+      const sbAvailable = !window.__sbFailed && !!window.supabase;
+      const sb = sbAvailable
+        ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+        : null;
 
       /* ═══════════════════════════════════════════
          常量
@@ -1139,13 +1143,26 @@
       renderGoalTable();
       render();   // render immediately from localStorage
 
+      // 兜底：最多等 6 秒，超时强制隐藏 loading，保证基本使用不受阻
+      const loaderTimeout = setTimeout(() => {
+        hideLoader();
+        if (!sbAvailable) showToast('云同步暂不可用（SDK 加载失败），数据已保存本地');
+      }, 6000);
+
       // then check Supabase session
-      initAuth();
+      if (sbAvailable) {
+        initAuth(loaderTimeout);
+      } else {
+        // SDK 没加载成功，直接跳过登录检查
+        clearTimeout(loaderTimeout);
+        hideLoader();
+        updateAuthUI();
+      }
 
       /* ═══════════════════════════════════════════
          Auth: init & listeners
       ═══════════════════════════════════════════ */
-      async function initAuth() {
+      async function initAuth(timer) {
         try {
           const { data: { session } } = await sb.auth.getSession();
           currentUser = session?.user || null;
@@ -1158,6 +1175,8 @@
         } catch (err) {
           console.warn('Auth check failed:', err);
           renderAfterAuth();
+        } finally {
+          clearTimeout(timer); // 成功或失败都清掉超时计时器
         }
       }
 
@@ -1168,7 +1187,7 @@
       }
 
       // listen for auth changes (login, logout, token refresh)
-      sb.auth.onAuthStateChange(async (event, session) => {
+      if (sbAvailable) sb.auth.onAuthStateChange(async (event, session) => {
         const prevUser = currentUser;
         currentUser = session?.user || null;
 
@@ -1299,7 +1318,7 @@
         });
 
         logoutBtn.addEventListener('click', async () => {
-          await sb.auth.signOut();
+          if (sb) await sb.auth.signOut();
           showToast('已退出登录');
         });
 
@@ -1312,6 +1331,7 @@
         loginForm.addEventListener('submit', async (e) => {
           e.preventDefault();
           hideAuthMessages();
+          if (!sbAvailable) { showAuthError(loginError, '当前网络无法连接云服务，请稍后重试。'); return; }
           const email    = document.getElementById('loginEmail').value.trim();
           const password = document.getElementById('loginPassword').value;
           loginSubmitBtn.disabled = true;
@@ -1327,6 +1347,7 @@
         registerForm.addEventListener('submit', async (e) => {
           e.preventDefault();
           hideAuthMessages();
+          if (!sbAvailable) { showAuthError(registerError, '当前网络无法连接云服务，请稍后重试。'); return; }
           const email    = document.getElementById('registerEmail').value.trim();
           const password = document.getElementById('registerPassword').value;
           const confirm  = document.getElementById('registerConfirm').value;
@@ -1356,6 +1377,7 @@
         resetForm.addEventListener('submit', async (e) => {
           e.preventDefault();
           hideAuthMessages();
+          if (!sbAvailable) { showAuthError(resetError, '当前网络无法连接云服务，请稍后重试。'); return; }
           const email = document.getElementById('resetEmail').value.trim();
           resetSubmitBtn.disabled = true;
           resetSubmitBtn.textContent = '发送中…';
