@@ -1157,7 +1157,7 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
       let isSyncing = false;
 
       /* ═══════════════════════════════════════════
-         Boot
+         Boot — UI 渲染绝不等待网络
       ═══════════════════════════════════════════ */
       fillSelectOptions();
       ensureRecord(currentMonth);
@@ -1166,43 +1166,39 @@ Resources:`;for(let t of c){if(!t||typeof t!=`string`)throw Error(`@supabase/aut
       bindEvents();
       bindAuthEvents();
       renderGoalTable();
-      render();   // render immediately from localStorage
 
-      // 兜底：最多等 6 秒，超时强制隐藏 loading，保证基本使用不受阻
-      const loaderTimeout = setTimeout(() => {
-        hideLoader();
-        updateAuthUI(); // ← 必须调用，否则登录按钮永远隐藏
-        if (!sbAvailable) showToast('云同步暂不可用（SDK 加载失败），数据已保存本地');
-      }, 3000);
+      // ① 立即渲染页面（用 localStorage 数据）
+      // ② 立即显示登录按钮，不等任何网络请求
+      // ③ 在后台静默检查登录状态，完成后自动更新 UI
+      updateAuthUI();   // 登录按钮立刻可见
+      hideLoader();     // loading 动画立刻消失
+      render();         // 页面内容立刻呈现
 
-      // then check Supabase session
       if (sbAvailable) {
-        initAuth(loaderTimeout);
-      } else {
-        // SDK 没加载成功，直接跳过登录检查
-        clearTimeout(loaderTimeout);
-        hideLoader();
-        updateAuthUI();
+        initAuth();     // 后台静默执行，不阻塞 UI
       }
 
       /* ═══════════════════════════════════════════
          Auth: init & listeners
       ═══════════════════════════════════════════ */
-      async function initAuth(timer) {
+      async function initAuth() {
         try {
-          const { data: { session } } = await sb.auth.getSession();
+          // 用 Promise.race 给网络请求加 8 秒硬超时
+          // 超时视为「未登录」，不影响页面使用
+          const session = await Promise.race([
+            sb.auth.getSession().then(r => r.data?.session ?? null),
+            new Promise(resolve => setTimeout(() => resolve(null), 8000))
+          ]);
           currentUser = session?.user || null;
           if (currentUser) {
             await loadStateFromSupabase();
-            renderAfterAuth();
-          } else {
-            renderAfterAuth();
+            updateAuthUI();
+            render();
           }
+          // 未登录时 UI 已经正确显示，无需额外操作
         } catch (err) {
-          console.warn('Auth check failed:', err);
-          renderAfterAuth();
-        } finally {
-          clearTimeout(timer); // 成功或失败都清掉超时计时器
+          console.warn('Auth check failed silently:', err);
+          // 静默失败，UI 已经可用，不打扰用户
         }
       }
 
